@@ -4,522 +4,179 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>КУКІШ — Магазин запчастин</title>
-  <style>
-    :root{
-      --bg:#0b0d10;--card:#151923;--muted:#9aa3b2;--text:#e7eaf0;--accent:#5eead4;--accent-2:#60a5fa;--danger:#ef4444;--ok:#22c55e;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans",sans-serif}
-    a{color:var(--accent-2);text-decoration:none}
-    header{
-      position:sticky;top:0;z-index:5;background:rgba(11,13,16,.85);backdrop-filter:blur(6px);
-      border-bottom:1px solid #222;padding:.75rem 1rem;display:flex;gap:1rem;align-items:center;justify-content:space-between
-    }
-    .brand{display:flex;gap:.6rem;align-items:center;font-weight:800;letter-spacing:.5px}
-    .logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#0b0d10;font-weight:900}
-    .search{flex:1;max-width:680px;display:flex;gap:.5rem}
-    .search input{flex:1;padding:.7rem .9rem;border-radius:12px;border:1px solid #2a2f3a;background:#0f131a;color:var(--text)}
-    .search button, .btn{
-      padding:.7rem 1rem;border:1px solid #2a2f3a;background:#111625;color:var(--text);border-radius:12px;cursor:pointer
-    }
-    .btn-primary{background:linear-gradient(135deg,var(--accent-2),var(--accent));color:#0b0d10;border-color:transparent;font-weight:700}
-    .btn-ghost{background:transparent;border-color:#2a2f3a}
-    .btn-danger{background:#2a0f12;border-color:#63212b;color:#ffb4be}
-    .btn-ok{background:#0f291a;border-color:#244e39;color:#a9f0c7}
-
-    .wrap{max-width:1200px;margin:0 auto;padding:1rem}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}
-    .card{background:var(--card);border:1px solid #232838;border-radius:16px;padding:1rem;display:flex;flex-direction:column;gap:.6rem}
-    .card img{width:100%;height:170px;object-fit:cover;border-radius:12px;background:#0f131a;border:1px dashed #2a2f3a}
-    .price{font-weight:800;font-size:1.05rem}
-    .muted{color:var(--muted)}
-    .row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
-    .tag{font-size:.8rem;padding:.2rem .5rem;border-radius:999px;border:1px solid #333;color:#cbd5e1}
-    .hidden{display:none}
-    .hr{height:1px;background:#232838;margin:.5rem 0}
-
-    /* Admin panel */
-    .admin-bar{display:flex;gap:.5rem;flex-wrap:wrap}
-    dialog{border:none;border-radius:16px;padding:0;background:#0f131a;color:var(--text);width:min(820px,95vw)}
-    dialog::backdrop{background:rgba(0,0,0,.6)}
-    .modal{padding:1rem}
-    .form{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-    .form label{font-size:.9rem;color:var(--muted)}
-    .form input,.form textarea,.form select{
-      width:100%;padding:.6rem .8rem;border-radius:12px;border:1px solid #2a2f3a;background:#0b0f16;color:var(--text)
-    }
-    .form textarea{min-height:110px;grid-column:1/-1}
-    .form .full{grid-column:1/-1}
-
-    .pill{padding:.25rem .6rem;border-radius:999px;border:1px solid #2a2f3a}
-    footer{border-top:1px solid #222;color:#94a3b8;padding:2rem 1rem;margin-top:2rem;background:#0b0d10}
-  </style>
+  <meta name="description" content="КУКІШ — інтернет-магазин запчастин для бізнесу: каталог, ціни, контакти." />
+  <link rel="stylesheet" href="./styles.css" />
+  <!-- Open Graph для кращого шарингу -->
+  <meta property="og:title" content="КУКІШ — Магазин запчастин" />
+  <meta property="og:description" content="Каталог автозапчастин для бізнесу." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/" />
 </head>
 <body>
-  <header>
+  <header class="header">
     <div class="brand">
       <div class="logo">К</div>
-      <div>
-        <div>КУКІШ</div>
-        <small class="muted">Інтернет-магазин запчастин</small>
+      <div class="title">
+        <strong>КУКІШ</strong>
+        <small>Інтернет-магазин запчастин</small>
       </div>
     </div>
     <div class="search">
-      <input id="q" placeholder="Пошук: назва, бренд, артикул..." />
-      <button class="btn" id="btnSearch">Пошук</button>
-      <button class="btn btn-ghost" id="btnClear">Скинути</button>
+      <input id="q" placeholder="Пошук: назва, бренд, артикул…" />
+      <select id="filterCategory">
+        <option value="">Всі категорії</option>
+        <option>Двигун</option>
+        <option>Кузов</option>
+        <option>Гальма</option>
+        <option>Підвіска</option>
+        <option>Електрика</option>
+        <option>Інше</option>
+      </select>
+      <select id="filterCondition">
+        <option value="">Стан: всі</option>
+        <option>Новий</option>
+        <option>Б/в</option>
+      </select>
+      <button id="btnSearch">Пошук</button>
+      <button id="btnClear" class="ghost">Скинути</button>
     </div>
-    <div class="row">
-      <button class="btn" id="btnAdmin">Адмін</button>
-      <button class="btn btn-primary" id="btnNew">+ Оголошення</button>
-    </div>
+    <nav class="nav">
+      <a href="/admin/" class="admin-link" title="Адмінка (тільки власник)">Адмін</a>
+    </nav>
   </header>
 
   <main class="wrap">
-    <div class="row" style="justify-content:space-between;align-items:center;margin:.5rem 0 1rem">
-      <div class="row">
-        <span class="muted">Фільтр:</span>
-        <select id="filterCategory" class="pill">
-          <option value="">Всі категорії</option>
-          <option value="Двигун">Двигун</option>
-          <option value="Кузов">Кузов</option>
-          <option value="Гальма">Гальма</option>
-          <option value="Підвіска">Підвіска</option>
-          <option value="Електрика">Електрика</option>
-          <option value="Інше">Інше</option>
-        </select>
-        <select id="filterCondition" class="pill">
-          <option value="">Стан: всі</option>
-          <option value="Новий">Новий</option>
-          <option value="Б/в">Б/в</option>
-        </select>
-      </div>
-      <div class="admin-bar hidden" id="adminBar">
-        <span class="pill">Увійшли як власник</span>
-        <button class="btn btn-ok" id="btnExport">Експорт</button>
-        <label class="btn" for="importJson">Імпорт</label>
-        <input id="importJson" type="file" accept="application/json" class="hidden" />
-        <button class="btn btn-danger" id="btnLogout">Вийти</button>
-      </div>
-    </div>
-
-    <section class="grid" id="list"></section>
-
-    <template id="cardTpl">
-      <article class="card">
-        <img alt="Фото запчастини" />
-        <h3 class="title"></h3>
-        <div class="muted small brand-line"></div>
-        <div class="row">
-          <span class="tag category"></span>
-          <span class="tag condition"></span>
-          <span class="tag sku"></span>
-        </div>
-        <div class="row" style="justify-content:space-between;align-items:center">
-          <div class="price"></div>
-          <div class="row">
-            <button class="btn" data-action="contact">Зв'язатися</button>
-            <button class="btn hidden" data-action="edit">Ред.</button>
-            <button class="btn btn-danger hidden" data-action="delete">Видалити</button>
-          </div>
-        </div>
-      </article>
-    </template>
+    <section id="notice" class="notice hidden"></section>
+    <section id="list" class="grid"></section>
   </main>
 
-  <footer class="wrap">
-    <div class="row" style="justify-content:space-between;align-items:center">
-      <div>
-        <strong>КУКІШ</strong> · Магазин запчастин для бізнесу
-        <div class="muted">Контакти: <span id="contactInfo">не задано</span></div>
-      </div>
-      <button class="btn" id="btnSettings">Налаштування</button>
+  <footer class="footer">
+    <div>
+      <strong>КУКІШ</strong> · <span id="footerText">Магазин запчастин для бізнесу</span>
+      <div class="muted">Контакти: <span id="contactInfo">—</span></div>
     </div>
   </footer>
 
-  <!-- Модалки -->
-  <dialog id="dlgAdmin">
-    <form method="dialog" class="modal">
-      <h3>Вхід власника</h3>
-      <p class="muted">(Клієнти сюди не заходять. Лише для власника сайту.)</p>
-      <div class="hr"></div>
-      <label>Пароль власника</label>
-      <input id="adminPass" type="password" placeholder="Введіть пароль" />
-      <div class="row" style="justify-content:flex-end;margin-top:1rem">
-        <button class="btn btn-ghost" value="cancel">Скасувати</button>
-        <button class="btn btn-primary" id="doLogin" value="default">Увійти</button>
-      </div>
-    </form>
-  </dialog>
-
-  <dialog id="dlgForm">
-    <form method="dialog" class="modal">
-      <h3 id="formTitle">Нове оголошення</h3>
-      <p class="muted">Зображення можна завантажити файлом або вставити URL.</p>
-      <div class="hr"></div>
-      <div class="form">
-        <div>
-          <label>Назва</label>
-          <input id="fTitle" required />
-        </div>
-        <div>
-          <label>Бренд</label>
-          <input id="fBrand" />
-        </div>
-        <div>
-          <label>Артикул / SKU</label>
-          <input id="fSku" />
-        </div>
-        <div>
-          <label>Категорія</label>
-          <select id="fCategory">
-            <option>Двигун</option>
-            <option>Кузов</option>
-            <option>Гальма</option>
-            <option>Підвіска</option>
-            <option>Електрика</option>
-            <option>Інше</option>
-          </select>
-        </div>
-        <div>
-          <label>Стан</label>
-          <select id="fCondition">
-            <option>Новий</option>
-            <option>Б/в</option>
-          </select>
-        </div>
-        <div>
-          <label>Ціна, грн</label>
-          <input id="fPrice" type="number" min="0" step="1" />
-        </div>
-        <div class="full">
-          <label>Опис</label>
-          <textarea id="fDesc"></textarea>
-        </div>
-        <div>
-          <label>Зображення (файл)</label>
-          <input id="fImgFile" type="file" accept="image/*" />
-        </div>
-        <div>
-          <label>Зображення (URL)</label>
-          <input id="fImgUrl" placeholder="https://..." />
-        </div>
-        <div class="full">
-          <label><input type="checkbox" id="fPublished" checked /> Опубліковано</label>
-        </div>
-        <input type="hidden" id="fId" />
-      </div>
-      <div class="row" style="justify-content:flex-end;margin-top:1rem">
-        <button class="btn btn-ghost" value="cancel">Скасувати</button>
-        <button class="btn btn-primary" id="doSave" value="default">Зберегти</button>
-      </div>
-    </form>
-  </dialog>
-
-  <dialog id="dlgSettings">
-    <form method="dialog" class="modal">
-      <h3>Налаштування магазину</h3>
-      <div class="hr"></div>
-      <div class="form">
-        <div class="full">
-          <label>Контакти (телефон/Telegram/WhatsApp)</label>
-          <input id="sContact" placeholder="+380... або @username або посилання" />
-        </div>
-        <div>
-          <label>Пароль власника</label>
-          <input id="sPass" type="text" />
-        </div>
-        <div class="full">
-          <label>Короткий опис у підвалі</label>
-          <input id="sFooter" />
-        </div>
-      </div>
-      <div class="row" style="justify-content:flex-end;margin-top:1rem">
-        <button class="btn btn-ghost" value="cancel">Скасувати</button>
-        <button class="btn btn-primary" id="saveSettings" value="default">Зберегти</button>
-      </div>
-    </form>
-  </dialog>
-
   <script>
-    /* =====================
-       ЗБЕРЕЖЕННЯ У localStorage
-       ===================== */
-    const LS_KEYS = {
-      items: 'kukish_listings',
-      settings: 'kukish_settings',
-      session: 'kukish_session'
-    };
+    // 👉 ЗАМІНИТИ на ваші значення
+    const GH_OWNER = "Maks310";   // ваш GitHub логін
+    const GH_REPO  = "kukish-shop"; // назва репозиторію
+    const GH_BRANCH = "main";      // гілка
 
-    /** @type {Array<{id:string,title:string,brand:string,sku:string,category:string,condition:string,price:number,desc:string,img:string,published:boolean,created:number,updated:number}>} */
-    let ITEMS = load(LS_KEYS.items, []);
-    let SETTINGS = load(LS_KEYS.settings, {contact:"", pass:"owner123", footer:"Магазин запчастин для бізнесу. Продаж гуртом і в роздріб."});
-    let SESSION = load(LS_KEYS.session, {admin:false});
+    const apiList = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/products?ref=${GH_BRANCH}`;
+    const rawBase = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}`;
 
-    function save(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
-    function load(key, fallback){ try{ return JSON.parse(localStorage.getItem(key)) ?? fallback }catch{ return fallback } }
-    const uid = () => Math.random().toString(36).slice(2)+Date.now().toString(36);
+    const q = document.getElementById('q');
+    const filterCategory = document.getElementById('filterCategory');
+    const filterCondition = document.getElementById('filterCondition');
+    const btnSearch = document.getElementById('btnSearch');
+    const btnClear = document.getElementById('btnClear');
+    const list = document.getElementById('list');
+    const notice = document.getElementById('notice');
+    const contactInfo = document.getElementById('contactInfo');
+    const footerText = document.getElementById('footerText');
 
-    /* =====================
-       ЕЛЕМЕНТИ ТА ПОДІЇ
-       ===================== */
-    const el = sel => document.querySelector(sel);
-    const list = el('#list');
-    const cardTpl = el('#cardTpl');
+    let PRODUCTS = [];
 
-    const q = el('#q');
-    const filterCategory = el('#filterCategory');
-    const filterCondition = el('#filterCondition');
-
-    const btnSearch = el('#btnSearch');
-    const btnClear = el('#btnClear');
-    const btnNew = el('#btnNew');
-    const btnAdmin = el('#btnAdmin');
-
-    const adminBar = el('#adminBar');
-    const dlgAdmin = el('#dlgAdmin');
-    const adminPass = el('#adminPass');
-    const doLogin = el('#doLogin');
-
-    const dlgForm = el('#dlgForm');
-    const formTitle = el('#formTitle');
-    const fId = el('#fId');
-    const fTitle = el('#fTitle');
-    const fBrand = el('#fBrand');
-    const fSku = el('#fSku');
-    const fCategory = el('#fCategory');
-    const fCondition = el('#fCondition');
-    const fPrice = el('#fPrice');
-    const fDesc = el('#fDesc');
-    const fImgFile = el('#fImgFile');
-    const fImgUrl = el('#fImgUrl');
-    const fPublished = el('#fPublished');
-    const doSave = el('#doSave');
-
-    const dlgSettings = el('#dlgSettings');
-    const sContact = el('#sContact');
-    const sPass = el('#sPass');
-    const sFooter = el('#sFooter');
-    const saveSettings = el('#saveSettings');
-
-    const btnSettings = el('#btnSettings');
-    const contactInfo = el('#contactInfo');
-
-    const btnExport = el('#btnExport');
-    const importJson = el('#importJson');
-    const btnLogout = el('#btnLogout');
-
-    // Початкове відображення
-    render();
-    applySessionUI();
-
-    contactInfo.textContent = SETTINGS.contact || 'не задано';
-    el('footer strong').nextSibling.textContent = ' · ' + (SETTINGS.footer || 'Магазин запчастин для бізнесу');
-
-    // Пошук та фільтри
     btnSearch.addEventListener('click', render);
     btnClear.addEventListener('click', () => { q.value=''; filterCategory.value=''; filterCondition.value=''; render(); });
-    [q, filterCategory, filterCondition].forEach(x => x.addEventListener('input', render));
+    [q, filterCategory, filterCondition].forEach(el=> el.addEventListener('input', render));
 
-    // Адмін логін
-    btnAdmin.addEventListener('click', () => { adminPass.value=''; dlgAdmin.showModal(); });
-    doLogin.addEventListener('click', (e) => {
-      e.preventDefault();
-      const ok = adminPass.value === SETTINGS.pass;
-      if(ok){ SESSION.admin=true; save(LS_KEYS.session, SESSION); applySessionUI(); dlgAdmin.close(); }
-      else{ alert('Невірний пароль'); }
-    });
+    main();
 
-    btnLogout.addEventListener('click', () => { SESSION.admin=false; save(LS_KEYS.session, SESSION); applySessionUI(); render(); });
-
-    function applySessionUI(){
-      adminBar.classList.toggle('hidden', !SESSION.admin);
-      btnNew.classList.toggle('hidden', !SESSION.admin);
-      // показати кнопки редагування/видалення на картках під час рендеру
-    }
-
-    // Нова картка / редагування
-    btnNew.addEventListener('click', () => openForm());
-
-    function openForm(item){
-      formTitle.textContent = item? 'Редагування оголошення' : 'Нове оголошення';
-      fId.value = item?.id || '';
-      fTitle.value = item?.title || '';
-      fBrand.value = item?.brand || '';
-      fSku.value = item?.sku || '';
-      fCategory.value = item?.category || 'Двигун';
-      fCondition.value = item?.condition || 'Новий';
-      fPrice.value = item?.price ?? '';
-      fDesc.value = item?.desc || '';
-      fImgFile.value = '';
-      fImgUrl.value = '';
-      fPublished.checked = item?.published ?? true;
-      dlgForm.showModal();
-    }
-
-    // Збереження
-    doSave.addEventListener('click', async (e) => {
-      e.preventDefault();
-      const id = fId.value || uid();
-      let img = '';
-      if(fImgFile.files[0]){
-        img = await fileToDataUrl(fImgFile.files[0]);
-      } else if(fImgUrl.value){
-        img = fImgUrl.value.trim();
-      }
-      const now = Date.now();
-      const base = {
-        id,
-        title: fTitle.value.trim(),
-        brand: fBrand.value.trim(),
-        sku: fSku.value.trim(),
-        category: fCategory.value,
-        condition: fCondition.value,
-        price: Number(fPrice.value||0),
-        desc: fDesc.value.trim(),
-        img,
-        published: !!fPublished.checked,
-      };
-      const existing = ITEMS.find(x=>x.id===id);
-      if(existing){
-        Object.assign(existing, base, {updated: now});
-      } else {
-        ITEMS.unshift({...base, created: now, updated: now});
-      }
-      save(LS_KEYS.items, ITEMS);
-      dlgForm.close();
+    async function main(){
+      await loadSettings();
+      await loadProducts();
       render();
-    });
-
-    function fileToDataUrl(file){
-      return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(file); });
     }
 
-    // Рендер списку
+    async function loadSettings(){
+      try{
+        const res = await fetch(`${rawBase}/site/settings.json`);
+        if(res.ok){
+          const s = await res.json();
+          contactInfo.textContent = s.contact || '—';
+          footerText.textContent = s.footer || 'Магазин запчастин для бізнесу';
+        }
+      }catch(e){ console.warn('settings error', e); }
+    }
+
+    async function loadProducts(){
+      try{
+        const res = await fetch(apiList);
+        if(!res.ok) throw new Error('Не вдалося отримати список файлів');
+        const files = await res.json();
+        const jsonFiles = files.filter(f=>/\.json$/i.test(f.name));
+        const loaded = await Promise.all(jsonFiles.map(async f=>{
+          const r = await fetch(`${rawBase}/products/${f.name}`);
+          if(!r.ok) return null;
+          try{ return await r.json(); }catch{ return null; }
+        }));
+        PRODUCTS = loaded.filter(Boolean).filter(x=> x.published !== false);
+      }catch(err){
+        showNotice('Помилка завантаження товарів. Перевірте налаштування репозиторію/гілки.', true);
+        console.error(err);
+      }
+    }
+
     function render(){
       list.innerHTML='';
-      let qv = (q.value||'').toLowerCase().trim();
-      let items = ITEMS.filter(x=> x.published || SESSION.admin);
+      hideNotice();
+      let items = [...PRODUCTS];
+      const qv = (q.value||'').toLowerCase().trim();
       if(filterCategory.value) items = items.filter(x=>x.category===filterCategory.value);
       if(filterCondition.value) items = items.filter(x=>x.condition===filterCondition.value);
-      if(qv){
-        items = items.filter(x=>[
-          x.title,x.brand,x.sku,x.category,x.condition,x.desc
-        ].join(' ').toLowerCase().includes(qv));
-      }
+      if(qv){ items = items.filter(x=> [x.title,x.brand,x.sku,x.desc].join(' ').toLowerCase().includes(qv)); }
 
       if(items.length===0){
-        const empty = document.createElement('div');
-        empty.className='muted';
-        empty.style.padding='1rem';
-        empty.textContent = 'Немає оголошень за вашим запитом.';
-        list.appendChild(empty); return;
+        showNotice('Немає оголошень за вашим запитом. Спробуйте змінити фільтри або пошук.');
+        return;
       }
 
       for(const it of items){
-        const node = cardTpl.content.firstElementChild.cloneNode(true);
-        const img = node.querySelector('img');
-        img.src = it.img || 'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="600" height="360"><rect width="100%" height="100%" fill="#0f131a"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#9aa3b2" font-family="Segoe UI" font-size="22">Без фото</text></svg>`);
-        node.querySelector('.title').textContent = it.title || 'Без назви';
-        node.querySelector('.brand-line').textContent = [it.brand, it.desc].filter(Boolean).join(' · ');
-        node.querySelector('.category').textContent = it.category;
-        node.querySelector('.condition').textContent = it.condition;
-        node.querySelector('.sku').textContent = it.sku? ('SKU: '+it.sku) : 'SKU: —';
-        node.querySelector('.price').textContent = (it.price? it.price.toLocaleString('uk-UA'): '—') + ' грн';
-
-        const btnEdit = node.querySelector('[data-action="edit"]');
-        const btnDelete = node.querySelector('[data-action="delete"]');
-        const btnContact = node.querySelector('[data-action="contact"]');
-
-        btnEdit.classList.toggle('hidden', !SESSION.admin);
-        btnDelete.classList.toggle('hidden', !SESSION.admin);
-
-        btnEdit.addEventListener('click', ()=> openForm(it));
-        btnDelete.addEventListener('click', ()=>{
-          if(confirm('Видалити оголошення?')){
-            ITEMS = ITEMS.filter(x=>x.id!==it.id);
-            save(LS_KEYS.items, ITEMS);
-            render();
-          }
-        });
-
-        btnContact.addEventListener('click', ()=>{
-          if(!SETTINGS.contact){ alert('Контакти не налаштовані. Вкажіть у Налаштуваннях.'); return; }
-          const c = SETTINGS.contact.trim();
-          if(c.startsWith('http')){ window.open(c, '_blank'); }
-          else if(c.startsWith('+')){ window.location.href = 'tel:'+c; }
-          else if(c.startsWith('@')){ window.open('https://t.me/'+c.replace('@',''), '_blank'); }
-          else { alert('Контакти: '+c); }
-        });
-
-        list.appendChild(node);
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${it.image||''}" alt="${escapeHtml(it.title||'Запчастина')}" onerror="this.style.display='none'"/>
+          <h3>${escapeHtml(it.title||'Без назви')}</h3>
+          <div class="muted">${escapeHtml([it.brand, it.desc].filter(Boolean).join(' · '))}</div>
+          <div class="row">
+            <span class="tag">${escapeHtml(it.category||'-')}</span>
+            <span class="tag">${escapeHtml(it.condition||'-')}</span>
+            <span class="tag">${it.sku? 'SKU: '+escapeHtml(it.sku): 'SKU: —'}</span>
+          </div>
+          <div class="row between">
+            <div class="price">${fmtPrice(it.price)}</div>
+            <button class="ghost" onclick="contact()">Зв'язатися</button>
+          </div>`;
+        list.appendChild(card);
       }
     }
 
-    // Налаштування
-    btnSettings.addEventListener('click', ()=>{
-      sContact.value = SETTINGS.contact || '';
-      sPass.value = SETTINGS.pass || '';
-      sFooter.value = SETTINGS.footer || '';
-      dlgSettings.showModal();
-    });
-
-    saveSettings.addEventListener('click', (e)=>{
-      e.preventDefault();
-      SETTINGS.contact = sContact.value.trim();
-      SETTINGS.pass = sPass.value || 'owner123';
-      SETTINGS.footer = sFooter.value.trim();
-      save(LS_KEYS.settings, SETTINGS);
-      contactInfo.textContent = SETTINGS.contact || 'не задано';
-      el('footer strong').nextSibling.textContent = ' · ' + (SETTINGS.footer || 'Магазин запчастин для бізнесу');
-      dlgSettings.close();
-    });
-
-    // Експорт/Імпорт
-    btnExport?.addEventListener('click', ()=>{
-      const data = { items: ITEMS, settings: SETTINGS };
-      const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'kukish_backup.json';
-      a.click();
-      URL.revokeObjectURL(a.href);
-    });
-
-    importJson?.addEventListener('change', async ()=>{
-      const file = importJson.files?.[0]; if(!file) return;
-      const text = await file.text();
-      try{
-        const data = JSON.parse(text);
-        if(Array.isArray(data.items)){ ITEMS = data.items; save(LS_KEYS.items, ITEMS); }
-        if(data.settings){ SETTINGS = Object.assign(SETTINGS, data.settings); save(LS_KEYS.settings, SETTINGS); }
-        contactInfo.textContent = SETTINGS.contact || 'не задано';
-        render();
-        alert('Імпорт виконано');
-      }catch(err){ alert('Помилка імпорту: '+err.message); }
-      importJson.value='';
-    });
-
-    // Додати кілька демо-товарів, якщо порожньо
-    if(ITEMS.length===0){
-      ITEMS = [
-        {id:uid(), title:'Гальмівні колодки ATE', brand:'ATE', sku:'13.0460-7181.2', category:'Гальма', condition:'Новий', price:1899, desc:'Підходить до VW/Audi/Skoda. Комплект.', img:'', published:true, created:Date.now(), updated:Date.now()},
-        {id:uid(), title:'Амортизатор Sachs', brand:'Sachs', sku:'312123', category:'Підвіска', condition:'Б/в', price:1200, desc:'Стан добрий, без підтікань.', img:'', published:true, created:Date.now(), updated:Date.now()},
-        {id:uid(), title:'Фара ліва Ford Focus 3', brand:'Ford', sku:'FF3-LH-2014', category:'Кузов', condition:'Б/в', price:3500, desc:'Оригінал, без кріплень.', img:'', published:true, created:Date.now(), updated:Date.now()},
-      ];
-      save(LS_KEYS.items, ITEMS);
-      render();
+    function contact(){
+      const c = contactInfo.textContent.trim();
+      if(!c || c==='—'){ alert('Контакти не налаштовані. Вкажіть їх у /admin (Site Settings).'); return; }
+      if(c.startsWith('http')) window.open(c, '_blank');
+      else if(c.startsWith('+')) window.location.href = 'tel:'+c;
+      else if(c.startsWith('@')) window.open('https://t.me/'+c.replace('@',''), '_blank');
+      else alert('Контакти: '+c);
     }
 
-    // Гарячі клавіші (лише для адміна)
-    window.addEventListener('keydown', (e)=>{
-      if(!SESSION.admin) return;
-      if(e.key==='n' && (e.ctrlKey||e.metaKey)){ e.preventDefault(); openForm(); }
-      if(e.key==='f' && (e.ctrlKey||e.metaKey)){ q.focus(); }
-    });
+    function fmtPrice(p){
+      if(p===undefined || p===null || p==='') return '—';
+      const n = Number(p);
+      return (Number.isFinite(n)? n.toLocaleString('uk-UA') : String(p)) + ' грн';
+    }
 
-    // Попередження про клієнтський пароль
-    console.warn('УВАГА: Пароль зберігається в браузері (localStorage) і перевіряється на клієнті. Для реальної безпеки потрібен сервер.');
+    function showNotice(msg, danger=false){
+      notice.textContent = msg; notice.classList.remove('hidden');
+      notice.classList.toggle('danger', !!danger);
+    }
+    function hideNotice(){ notice.classList.add('hidden'); }
+
+    function escapeHtml(s=''){
+      return s.replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+    }
   </script>
 </body>
 </html>
