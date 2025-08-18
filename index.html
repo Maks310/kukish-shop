@@ -2,24 +2,26 @@
 <html lang="uk">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>КУКІШ - Магазин запчастин</title>
 </head>
 <body>
-  <h1>Магазин КУКІШ</h1>
+  <h1>Запчастини</h1>
   <div id="products"></div>
-  <script>
-    const products = [
-      { name: "Фільтр масляний", price: "200 грн" },
-      { name: "Гальмівні колодки", price: "800 грн" }
-    ];
 
-    const container = document.getElementById("products");
-    products.forEach(p => {
-      const item = document.createElement("div");
-      item.innerHTML = `<b>${p.name}</b> — ${p.price}`;
-      container.appendChild(item);
-    });
+  <script>
+    async function loadProducts() {
+      const response = await fetch('products/index.json'); // список товарів
+      const products = await response.json();
+      const container = document.getElementById("products");
+
+      products.forEach(p => {
+        const item = document.createElement("div");
+        item.innerHTML = `<h3>${p.title}</h3><p>${p.price}</p><p>${p.body}</p>`;
+        if(p.image) item.innerHTML += `<img src="${p.image}" width="200">`;
+        container.appendChild(item);
+      });
+    }
+    loadProducts();
   </script>
 </body>
 </html>
