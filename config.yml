@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: ваш-логін/kukish-shop
+  repo: Maks310/kukish-shop   # замініть на ваш GitHub
   branch: main
 
 media_folder: "images"
@@ -16,3 +16,4 @@ collections:
       - { label: "Назва", name: "title", widget: "string" }
       - { label: "Ціна", name: "price", widget: "string" }
       - { label: "Опис", name: "body", widget: "markdown" }
+      - { label: "Фото", name: "image", widget: "image" }
