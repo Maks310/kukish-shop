@@ -1,0 +1,19 @@
+backend:
+  name: github
+  repo: Maks310/kukish-shop   # заміни на свій логін/назву репо
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "products"
+    label: "Товари"
+    folder: "products"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Назва", name: "title", widget: "string" }
+      - { label: "Ціна", name: "price", widget: "string" }
+      - { label: "Опис", name: "body", widget: "markdown" }
+      - { label: "Фото", name: "image", widget: "image" }
