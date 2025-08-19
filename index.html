@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>КУКІШ — Магазин запчастин</title>
+<meta name="description" content="КУКІШ — інтернет-магазин запчастин для бізнесу: каталог, ціни, контакти." />
+<link rel="stylesheet" href="./styles.css" />
+<!-- Open Graph для кращого шарингу -->
+<meta property="og:title" content="КУКІШ — Магазин запчастин" />
+<meta property="og:description" content="Каталог автозапчастин для бізнесу." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="/" />
+</head>
+<body>
+<header class="header">
+<div class="brand">
+<div class="logo">К</div>
+<div class="title">
+<strong>КУКІШ</strong>
+<small>Інтернет-магазин запчастин</small>
+</div>
+</div>
+<div class="search">
+<input id="q" placeholder="Пошук: назва, бренд, артикул…" />
+<select id="filterCategory">
+<option value="">Всі категорії</option>
+<option>Двигун</option>
+<option>Кузов</option>
+<option>Гальма</option>
+<option>Підвіска</option>
+<option>Електрика</option>
+<option>Інше</option>
+</select>
+<select id="filterCondition">
+<option value="">Стан: всі</option>
+<option>Новий</option>
+<option>Б/в</option>
+</select>
+<button id="btnSearch">Пошук</button>
+<button id="btnClear" class="ghost">Скинути</button>
+</div>
+<nav class="nav">
+<a href="/admin/" class="admin-link" title="Адмінка (тільки власник)">Адмін</a>
+</nav>
+</header>
+
+
+<main class="wrap">
+<section id="notice" class="notice hidden"></section>
+<section id="list" class="grid"></section>
+</main>
+
+
+<footer class="footer">
+<div>
+<strong>КУКІШ</strong> · <span id="footerText">Магазин запчастин для бізнесу</span>
+<div class="muted">Контакти: <span id="contactInfo">—</span></div>
+</div>
+</footer>
+
+
+<script>
+// 👉 ЗАМІНИТИ на ваші значення
+const GH_OWNER = "Maks310"; // ваш GitHub логін
+const GH_REPO = "kukish-shop"; // назва репозиторію
+const GH_BRANCH = "main"; // гілка
+
+
+const apiList = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/products?ref=${GH_BRANCH}`;
+const rawBase = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}`;
+
+
+const q = document.getElementById('q');
+const filterCategory = document.getElementById('filterCategory');
+const filterCondition = document.getElementById('filterCondition');
+const btnSearch = document.getElementById('btnSearch');
+const btnClear = document.getElementById('btnClear');
+const list = document.getElementById('list');
+const notice = document.getElementById('notice');
+const contactInfo = document.getElementById('contactInfo');
+const footerText = document.getElementById('footerText');
+
+
+let PRODUCTS = [];
+
+
+btnSearch.addEventListener('click', render);
+</html>
